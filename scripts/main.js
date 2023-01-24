@@ -42,8 +42,10 @@ function simulate(){
     ball.pos.x += ball.velocity.x*dt;
     ball.pos.y += ball.velocity.y*dt;
 
-    if(ball.pos.x < 0 || ball.pos.x > canvas.width-ball.radius){
+    if(ball.pos.x*cScale < 0 || ball.pos.x*cScale > canvas.width){
         ball.velocity.x = -ball.velocity.x;
+        console.log(ball.velocity.x);
+        
     }
 
     if(ball.pos.y < 0){
