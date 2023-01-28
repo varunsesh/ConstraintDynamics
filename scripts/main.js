@@ -1,3 +1,5 @@
+import {Vector} from './vector.js'
+
 var canvas = document.getElementById("myCanvas");
 var c = canvas.getContext("2d");
 canvas.width = window.innerWidth - 50;
@@ -8,6 +10,7 @@ var cScale = Math.min(canvas.width, canvas.height)/simMinWidth;
 
 var dt = 1/60;
 var g = {x:0, y:-10};
+
 
 
 class ballObj{
@@ -41,16 +44,20 @@ function cY(pos){
     return canvas.height - pos.y*cScale ;
 }
 
-nballs = 2;
+var nballs = 10;
 
 var balls = [];
 
 function spawnBalls(){
-    var dx = 1.0
-    var ball1 = new ballObj({x:1.0, y:1.0}, 1.0, {x:10.0, y:12.0}, 0.5)
-    var ball2 = new ballObj({x:2.0, y:1.0}, 1.0, {x:5.0, y:12.0}, 0.5)
-    balls.push(ball1);
-    balls.push(ball2);
+    
+    for(var i = 0; i<nballs; i++){
+        var pos = new Vector(Math.random()*10,Math.random()*10);
+        var m = 1.0;
+        var r = 0.5;
+        var vel = new Vector(Math.random()*10, Math.random()*10);
+        var ball = new ballObj(pos, m, vel, r);
+        balls.push(ball);
+    }
 }
 
 function computeCollisions(){
