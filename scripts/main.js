@@ -72,12 +72,13 @@ function circle(colour, radius, pos){
 }
 
 var ball = new ballObj({x:1.0, y:1.0}, 1.0, {x:5.0, y:6.0}, 0.75);
+balls.push(ball);
 
 function draw(){
     c.clearRect(0,0, canvas.width, canvas.height);
-    circle('#FF0000', ball.r, ball.pos);
+    circle('#FF0000', balls[0].r, balls[0].pos);
 
-    for (var i = 0; i<balls.length; i++){
+    for (var i = 1; i<balls.length; i++){
         circle('#00FF00', balls[i].r, balls[i].pos);
     }
 }
@@ -101,20 +102,6 @@ function simulate(){
 
     }
 
-    ball.vel.x += g.x*dt;
-    ball.vel.y += g.y*dt;
-    
-    ball.pos.x += ball.vel.x*dt;
-    ball.pos.y += ball.vel.y*dt;
-
-    if(ball.pos.x*cScale < 0 || ball.pos.x*cScale > canvas.width){
-        ball.vel.x = -ball.vel.x;
-    }
-
-    if(ball.pos.y < 0){
-        ball.pos.y = 0;
-        ball.vel.y = -ball.vel.y;
-    }
 }
 
 function update(){
