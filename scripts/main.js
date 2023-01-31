@@ -38,14 +38,14 @@ var g = new Vector(0, -10);
 // }
 
 
-var scene = new SetupScene(10, canvas.width, canvas.height);
+var scene = new SetupScene(10, cScale, canvas.width, canvas.height);
 var balls = scene.defineBalls();
 
 function update(){
     for(var i = 0; i<balls.length; i++){
         balls[i] = balls[i].simulate(g, dt);
-        scene.drawScene(c, balls, cScale);
     }
+    scene.drawScene(c, balls);
     requestAnimationFrame(update);
 }
 

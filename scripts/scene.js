@@ -53,12 +53,11 @@ export class SetupScene{
     drawBall(ctx, colour, radius, pos){
         ctx.fillStyle = colour;
         ctx.beginPath();
-        ctx.arc(cX(pos), cY(pos, this.height), radius*this.cScale, 0, 2*Math.PI);
+        ctx.arc(cX(pos, this.cScale), cY(pos, this.cScale, this.height), radius*this.cScale, 0, 2*Math.PI);
         ctx.fill();
     }
 
-    drawScene(ctx, balls, cScale){
-        this.cScale = cScale;
+    drawScene(ctx, balls){
         ctx.clearRect(0,0, this.width, this.height);
         this.drawBall(ctx, '#FF0000', balls[0].r, balls[0].pos);
 
