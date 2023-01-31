@@ -1,6 +1,6 @@
 import {Vector} from './vector.js'
 
-class Ball{
+export class Ball{
     constructor(params){
         this.pos= params && params.pos || new Vector(0.0, 0.0);
         this.m = params && params.m || 0.0;
@@ -12,21 +12,63 @@ class Ball{
         g = g.scale(dt);
         this.vel = this.vel.addVector(g);
         var velUpdate = this.vel.scale(dt);
-        this.pos += velUpdate;
+        this.pos = this.pos.addVector(velUpdate);
+        
+        var params = {pos:this.pos, vel:this.vel, m:this.m, r:this.r}
+        var ball = new Ball(params);
+        return ball;
+    }
+}
+
+function cX(pos, cScale){
+    return pos.x*cScale;
+}
+
+function cY(pos, cScale, height){
+    return height - pos.y*cScale ;
+}
+
+export class SetupScene{
+    constructor(nballs, cScale, width, height){
+        this.nballs = nballs && nballs || 10;        
+        this.balls = [];
+        this.cScale = cScale && cScale || 1.0;;
+        this.width = width;
+        this.height = height; 
+
+    }
+
+    defineBalls(){
+        for(var i = 1; i<this.nballs; i++){
+            var pos = new Vector(Math.random()*10.0, Math.random()*10);
+            var vel = new Vector(Math.random()*10, Math.random()*10);
+            var params = {pos:pos, vel:vel, m:0.5, r:0.5}; 
+            this.balls.push(new Ball(params));
+        }
+        this.balls[0] = new Ball({pos:new Vector(0.2, 0.2), vel:new Vector(10.0, 12.0), m:1.0, r:1.0});
+
+        return this.balls;
+    }
+
+    drawBall(ctx, colour, radius, pos){
+        ctx.fillStyle = colour;
+        ctx.beginPath();
+        ctx.arc(cX(pos), cY(pos, this.height), radius*this.cScale, 0, 2*Math.PI);
+        ctx.fill();
+    }
+
+    drawScene(ctx, balls, cScale){
+        this.cScale = cScale;
+        ctx.clearRect(0,0, this.width, this.height);
+        this.drawBall(ctx, '#FF0000', balls[0].r, balls[0].pos);
+
+        for (var i = 1; i<balls.length; i++){
+            this.drawBall(ctx, '#00FF00', balls[i].r, balls[i].pos);
+        }
     }
 }
 
 
-class SetupScene{
-    constructor(nballs){
-        this.nballs = nballs && 10 || nballs;        
-    }
-}
-
-var pos = new Vector(1.0, 2.0);
-var vel = new Vector(10.0, 20.0);
-var params = {pos:pos, vel:vel, m:1.0, r:1.0};
-var ball1 = new Ball(params);
 
 
 

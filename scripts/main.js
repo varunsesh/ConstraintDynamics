@@ -1,5 +1,5 @@
 import {Vector} from './vector.js'
-
+import { SetupScene } from './scene.js';
 var canvas = document.getElementById("myCanvas");
 var c = canvas.getContext("2d");
 canvas.width = window.innerWidth - 50;
@@ -9,107 +9,45 @@ var simMinWidth = 20;
 var cScale = Math.min(canvas.width, canvas.height)/simMinWidth;
 
 var dt = 1/60;
-var g = {x:0, y:-10};
+
+var g = new Vector(0, -10);
 
 
 
-class ballObj{
-    constructor(pos, m, vel, r){
-        if(pos === null){
-            this.pos = {x:0, y:0}
-        }
-        if(m === null){
-            this.m = 0.0;
-        }
-        if(vel === null){
-            this.vel = {x:0, y:0};
-        }
-        if(r === null){
-            r = 1.0;
-        }
-
-        this.pos=pos;
-        this.m = m;
-        this.vel = vel;
-        this.r = r;
-    }
-}
 
 
-function cX(pos){
-    return pos.x*cScale;
-}
+// function simulate(){
+//     for (var i = 0; i<balls.length; i++){
+//         balls[i].vel.x += g.x*dt;
+//         balls[i].vel.y += g.y*dt;
 
-function cY(pos){
-    return canvas.height - pos.y*cScale ;
-}
+//         balls[i].pos.x += balls[i].vel.x*dt;
+//         balls[i].pos.y += balls[i].vel.y*dt;
 
-var nballs = 10;
+//         if(balls[i].pos.x*cScale < 0 || balls[i].pos.x*cScale > canvas.width){
+//             balls[i].vel.x = -balls[i].vel.x;
+//         }
 
-var balls = [];
+//         if(balls[i].pos.y < 0){
+//             balls[i].pos.y = 0;
+//             balls[i].vel.y = -balls[i].vel.y;
+//         }
 
-function spawnBalls(){
-    
-    for(var i = 0; i<nballs; i++){
-        var pos = new Vector(Math.random()*10,Math.random()*10);
-        var m = 1.0;
-        var r = 0.5;
-        var vel = new Vector(Math.random()*10, Math.random()*10);
-        var ball = new ballObj(pos, m, vel, r);
-        balls.push(ball);
-    }
-}
+//     }
 
-function computeCollisions(){
+// }
 
-}
 
-function circle(colour, radius, pos){
-    c.fillStyle = colour;
-    c.beginPath();
-    c.arc(cX(pos), cY(pos), radius*cScale, 0, 2*Math.PI);
-    c.fill();
-}
-
-var ball = new ballObj({x:1.0, y:1.0}, 1.0, {x:5.0, y:6.0}, 0.75);
-balls.push(ball);
-
-function draw(){
-    c.clearRect(0,0, canvas.width, canvas.height);
-    circle('#FF0000', balls[0].r, balls[0].pos);
-
-    for (var i = 1; i<balls.length; i++){
-        circle('#00FF00', balls[i].r, balls[i].pos);
-    }
-}
-
-function simulate(){
-    for (var i = 0; i<balls.length; i++){
-        balls[i].vel.x += g.x*dt;
-        balls[i].vel.y += g.y*dt;
-
-        balls[i].pos.x += balls[i].vel.x*dt;
-        balls[i].pos.y += balls[i].vel.y*dt;
-
-        if(balls[i].pos.x*cScale < 0 || balls[i].pos.x*cScale > canvas.width){
-            balls[i].vel.x = -balls[i].vel.x;
-        }
-
-        if(balls[i].pos.y < 0){
-            balls[i].pos.y = 0;
-            balls[i].vel.y = -balls[i].vel.y;
-        }
-
-    }
-
-}
+var scene = new SetupScene(10, canvas.width, canvas.height);
+var balls = scene.defineBalls();
 
 function update(){
-    simulate();
-    draw();
+    for(var i = 0; i<balls.length; i++){
+        balls[i] = balls[i].simulate(g, dt);
+        scene.drawScene(c, balls, cScale);
+    }
     requestAnimationFrame(update);
 }
 
-spawnBalls();
-update();
 
+update();
