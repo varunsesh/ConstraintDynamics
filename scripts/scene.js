@@ -13,10 +13,20 @@ export class Ball{
         this.vel = this.vel.addVector(g);
         var velUpdate = this.vel.scale(dt);
         this.pos = this.pos.addVector(velUpdate);
-        
+
         var params = {pos:this.pos, vel:this.vel, m:this.m, r:this.r}
         var ball = new Ball(params);
         return ball;
+    }
+
+    handleWallCollisions(scale, width, height){
+        if(this.pos.x*scale < 0 || this.pos.x*scale > width){
+            this.vel.x = -this.vel.x;
+        }
+        if(this.pos.y < 0){
+            this.pos.y = 0;
+            this.vel.y = -this.vel.y;
+        }
     }
 }
 
