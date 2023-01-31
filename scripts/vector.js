@@ -26,6 +26,14 @@ export class Vector{
     scale(s){
         return new Vector(s*this.x, s*this.y);
     }
+
+    scaleX(sx){
+        return new Vector(sx*this.x, this.y);
+    }
+
+    scaleY(sy){
+        return new Vector(this.x, sy*this.y);
+    }
     
 }
 

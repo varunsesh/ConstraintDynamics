@@ -21,12 +21,16 @@ export class Ball{
 
     handleWallCollisions(scale, width, height){
         if(this.pos.x*scale < 0 || this.pos.x*scale > width){
-            this.vel.x = -this.vel.x;
+            this.vel = this.vel.scaleX(-1);
         }
         if(this.pos.y < 0){
-            this.pos.y = 0;
-            this.vel.y = -this.vel.y;
+            this.pos = this.pos.scaleY(0);
+            this.vel = this.vel.scaleY(-1);
         }
+    }
+
+    handleBallCollisions(){
+        
     }
 }
 
