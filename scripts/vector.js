@@ -35,8 +35,8 @@ export class Vector{
         return new Vector(this.x, sy*this.y);
     }
 
-    dir(v1, v2){
-        return v2.addVector(v1.scale(-1));
+    dir(v2){
+        return v2.addVector(this.scale(-1));
     }
     
 }

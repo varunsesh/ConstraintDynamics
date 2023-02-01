@@ -34,18 +34,29 @@ export class Ball{
         var u2 = ball2.vel;
         var m1 = this.m;
         var m2 = ball2.m;
-        var d = this.vel.dir(u1, u2);
+        var p1 = this.pos;
+        var p2 = ball2.pos
+        var d = this.pos.dir(p2);
         var n = d.scale(1/d.length());
-        var epsilon = 0.01;
         var e = 0.5;
+
+        var u1n = n.scale(u1.dot(n));
+        var u2n = n.scale(u2.dot(n));
+
+        var u1t = u1 - u1n;
+        var u2t = u2 - u2n;    
         
-        if(d.length()-epsilon<5.0){
-            var v1 = (m1*u1.dot(n) + m2*u2.dot(n) -m2*(u1.dot(n) -u2.dot(n))*e)/(m1+m2);
-            var v2 = (m1*u1.dot(n)+m2*u2.dot(n)-m1*(u2.dot(n)-u1.dot(n)*e))/(m1+m2);
+        //Check for collisions
+        if(d.length()<this.r+ball2.r){
+            //Update velocities
+            var v1 = (m1*u1n + m2*u2n - m2*(u1n - u2n)*e)/(m1+m2);
+            var v2 = (m1*u1n + m2*u2n - m1*(u2n- u1n*e))/(m1+m2);
+            
             var vel1 = n.scale(v1);
-            var vel2 = n.scale(v2)
-            this.vel = new Vector(vel1.dot(new Vector(1.0, 0.0), vel1.dot(new Vector(0.0, 1.0))));
-            ball2.vel = new Vector(vel2.dot(new Vector(1.0, 0.0), vel2.dot(new Vector(0.0, 1.0))));
+            var vel2 = n.scale(v2);
+            
+            this.vel = vel1;
+            ball2.vel = vel2;
             
             return;
         }

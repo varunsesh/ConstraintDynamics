@@ -15,21 +15,23 @@ var g = new Vector(0, -10);
 
 
 
-var scene = new SetupScene(10, cScale, canvas.width, canvas.height);
+var scene = new SetupScene(3, cScale, canvas.width, canvas.height);
 var balls = scene.defineBalls();
 
-function update(){
+
+(function update(){
     for(var i = 0; i<balls.length; i++){
         balls[i] = balls[i].simulate(g, dt);
         balls[i].handleWallCollisions(cScale, canvas.width, canvas.height);
-        if(i>balls.length-2){
-            break;
+    }
+    for(var i = 0; i<balls.length; i++){
+        for(var j = i+1; j<balls.length; j++){
+            balls[i].handleBallCollisions(balls[j]);
         }
-        balls[i].handleBallCollisions(balls[i+1]);
+        
     }
     scene.drawScene(c, balls);
     requestAnimationFrame(update);
-}
+})();
 
 
-update();
