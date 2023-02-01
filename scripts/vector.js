@@ -34,6 +34,10 @@ export class Vector{
     scaleY(sy){
         return new Vector(this.x, sy*this.y);
     }
+
+    dir(v1, v2){
+        return v2.addVector(v1.scale(-1));
+    }
     
 }
 

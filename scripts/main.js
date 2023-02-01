@@ -22,6 +22,10 @@ function update(){
     for(var i = 0; i<balls.length; i++){
         balls[i] = balls[i].simulate(g, dt);
         balls[i].handleWallCollisions(cScale, canvas.width, canvas.height);
+        if(i>balls.length-2){
+            break;
+        }
+        balls[i].handleBallCollisions(balls[i+1]);
     }
     scene.drawScene(c, balls);
     requestAnimationFrame(update);
