@@ -15,7 +15,7 @@ var g = new Vector(0, -10);
 
 
 
-var scene = new SetupScene(3, cScale, canvas.width, canvas.height);
+var scene = new SetupScene(10, cScale, canvas.width, canvas.height);
 var balls = scene.defineBalls();
 
 
