@@ -34,31 +34,26 @@ export class Ball{
         var u2 = ball2.vel;
         var m1 = this.m;
         var m2 = ball2.m;
+        
         var p1 = this.pos;
         var p2 = ball2.pos
-        var d = this.pos.dir(p2);
-        var n = d.scale(1/d.length());
-        var e = 1.0;
+        
+        var d = p1.dir(p2);
 
-        var u1n = n.scale(u1.dot(n));
-        var u2n = n.scale(u2.dot(n));
-        var u1t = u1 - u1n;
-        var u2t = u2 - u2n;    
+        var n = d.scale(1/d.length());
+        var e = 0.5;
+
+        var u1n = (u1.dot(n));
+        var u2n = (u2.dot(n));
         
         //Check for collisions
         if(d.length()<this.r+ball2.r){
             //Update velocities
-            var v1x= (m1*u1n.x+ m2*u2n.x - m2*(u1n.x - u2n.x)*e)/(m1+m2);
-            var v1y = (m1*u1n.y+ m2*u2n.y - m2*(u1n.y - u2n.y)*e)/(m1+m2);
-            var v2x = (m1*u1n.x + m2*u2n.x - m1*(u2n.x - u1n.x*e))/(m1+m2);
-            var v2y = (m1*u1n.y + m2*u2n.y - m1*(u2n.y - u1n.y*e))/(m1+m2);
+            var v1= (m1*u1n+ m2*u2n - m2*(u1n - u2n)*e)/(m1+m2);
+            var v2 = (m1*u1n + m2*u2n - m1*(u2n - u1n*e))/(m1+m2);
 
-            
-            var vel1 = new Vector(v1x, v1y);
-            var vel2 = new Vector(v2x, v2y);
-            
-            this.vel = vel1;
-            ball2.vel = vel2;
+            this.vel.add(u1, v1-u1n);
+            ball2.vel.add(u2, v2-u2n);
             
             return;
         }

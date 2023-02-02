@@ -27,6 +27,16 @@ export class Vector{
         return new Vector(s*this.x, s*this.y);
     }
 
+    add(other, s){
+        this.x+=s*other.x;
+        this.y+=s*other.y;
+        return this;
+    }
+
+    subtractVector(other){
+        return new Vector(other.x-this.x, other.y-this.y);
+    }
+
     scaleX(sx){
         return new Vector(sx*this.x, this.y);
     }
