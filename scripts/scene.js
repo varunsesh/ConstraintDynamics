@@ -29,7 +29,7 @@ export class Ball{
         }
     }
 
-    handleBallCollisions(ball2){
+    handleBallCollisions(ball2, e){
         var u1 = this.vel;
         var u2 = ball2.vel;
         var m1 = this.m;
@@ -41,7 +41,6 @@ export class Ball{
         var d = p1.dir(p2);
 
         var n = d.scale(1/d.length());
-        var e = 0.5;
 
         var u1n = (u1.dot(n));
         var u2n = (u2.dot(n));
